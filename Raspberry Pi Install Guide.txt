@@ -1,0 +1,36 @@
+// update your system's package list
+sudo apt-get update
+// upgrade all your installed packages
+sudo apt-get dist-upgrade
+// Clone the webiopi (works with pi zero w) repo
+git clone https://github.com/thortex/rpi3-webiopi.git
+// Set the downloaded repo folder as the active directory
+cd rpi3-webiopi
+// install debian package management development files
+cd dev
+ ./01_setup-required-packages.sh
+// install python setup tools and development files
+./03_install_python_dev.sh
+// build package
+./10_make_deb.sh
+// Install WebIOPi+ debian package
+sudo dpkg -i ~/build.webiopi/python2-webiopi*.deb
+sudo dpkg -i ~/build.webiopi/python3-webiopi*.deb
+sudo webiopi-select-python 2
+sudo systemctl daemon-reload
+sudo systemctl restart webiopi
+// Open the webiopi password and delete everything in the file
+sudo nano /etc/webiopi/passwd
+// Start the webiopi server
+sudo /etc/init.d/webiopi start
+//
+// If Pi Controlling Relay, Install is complete, Only If Temperature Continue
+//
+//
+sudo rasps-config
+//Select interfacing options and enable 1 wire
+// Enable the temperature sensor
+sudo modprobe w1-gpio
+sudo modprobe w1-therm
+// reboot the device
+sudo reboot
